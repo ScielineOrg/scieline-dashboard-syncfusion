@@ -1,10 +1,10 @@
-import './App.css';
-import SidebarWithMenu from './components/SideBarMenu/SideBarMenu';
+import './App.scss';
+import SidebarMenu from './components/SideBarMenu/SideBarMenu';
 
 function App() {
   return (
     <div className="App">
-      <SidebarWithMenu/>
+      <SidebarMenu/>
     </div>
   );
 }

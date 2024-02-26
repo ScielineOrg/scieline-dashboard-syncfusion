@@ -1,9 +1,0 @@
-.main-content{
-    background-color: #F1F1FF;
-    box-shadow: 4px 0px 10px rgba(77,70,151,0.23);
-    height: calc(100vh - 2vw - 44px);
-    width: calc(100% - 2vw);
-    margin: 1vw;
-    border-radius: 10px;
-    padding: 1em;
-}

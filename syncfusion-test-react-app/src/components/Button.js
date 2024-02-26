@@ -1,11 +1,11 @@
 import React from 'react';
 import { ButtonComponent } from '@syncfusion/ej2-react-buttons';
 
-const Button = () => {
+const Button = (props) => {
   return (
     <div>
       <h1>Syncfusion Component 1</h1>
-      <ButtonComponent>Click me</ButtonComponent>
+      <ButtonComponent>{props.text}</ButtonComponent>
     </div>
   );
 };
