@@ -16,6 +16,13 @@
             .e-panel-header {
                 background-color: $header-color;
                 border-radius: 20px 20px 0 0;
+                .dashboard-projectHeader{
+                    text-decoration: underline;
+                    font-weight: 500;
+                    &.active{
+                        color: $purple-text-color;
+                    }
+                }
             }
 
             .e-panel-content {

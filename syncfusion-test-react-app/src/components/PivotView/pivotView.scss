@@ -129,7 +129,8 @@
 
 #PivotView-Heatmap{
     .e-grid{
-        height: 100%;  
+        height: calc(100% - 32px);
+        width: 100% !important;  
         .e-gridcontent{
             height: calc(100% - 74px);
             .e-content{

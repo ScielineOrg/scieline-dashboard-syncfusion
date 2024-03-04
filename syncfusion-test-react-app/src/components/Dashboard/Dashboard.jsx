@@ -2,17 +2,20 @@ import { DashboardLayoutComponent, PanelDirective, PanelsDirective } from '@sync
 import Gantt from "../Gantt/Gantt";
 import './dashboard.scss';
 import * as React from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Grid from "../Grid/Grid";
 import TreeView from "../TreeView/TreeView";
 import HeatMap from "../PivotView/PivotView";
 import UserInfo from "../UserInfo/UserInfo";
+import {projectData, masterProjectData, recipeData} from '../Grid/datasource';
 
 function Dashboard({isOpen}) {
+    const [isProjectData, setIsProjectData] = useState(true);
+
     useEffect(() => {
         console.log("isOpen", isOpen)
         onCreated();
-      }, [isOpen]);
+    }, [isOpen]);
 
     let dashboardObj = useRef(null);
 
@@ -22,8 +25,12 @@ function Dashboard({isOpen}) {
         return <Gantt/>;
     }
 
-    function grid() {
-        return <Grid/>;
+    function projectGrid() {
+        return <Grid data={isProjectData?projectData:masterProjectData} columns={[{ field: 'OrderID', headerText: 'Project ID' }, { field: 'CustomerID', headerText: 'User' },{ field: 'ShipCountry', headerText: 'Ship Country' }]}/>;
+    }
+
+    function recipeGrid() {
+        return <Grid data={recipeData} columns={[{ field: 'OrderID', headerText: 'ID' }, { field: 'recipeName', headerText: 'Recipe Name' },{ field: 'ShipCountry', headerText: 'Ship Country' }]}/>;
     }
 
     function treeview() {
@@ -38,13 +45,27 @@ function Dashboard({isOpen}) {
         return <UserInfo/>;
     }
 
+
+    function changeProjectGridData(isProject) {
+        setIsProjectData(isProject);
+    }
+
+    function projectHeaderTemplate() {
+        return (<div>
+            <span className={`dashboard-projectHeader ${!isProjectData ? 'active' : ''}`} onClick={(e)=>changeProjectGridData(false)}>MY MASTER PROJECTS</span> 
+            <span> / </span>
+            <span className={`dashboard-projectHeader ${isProjectData ? 'active' : ''}`} onClick={(e)=>changeProjectGridData(true)}>MY PROJECTS</span>
+        </div>);
+    }
+
     function onCreated(args){
 
-        setTimeout(function() {
-    
-            dashboardObj.current.refresh();
-    
-        }, 500);
+        if(dashboardObj.current){
+            setTimeout(function () {
+                dashboardObj.current.refresh();
+            }, 500); 
+        }
+        
     
     };
 
@@ -53,11 +74,11 @@ function Dashboard({isOpen}) {
             {/* <div> */}
                 <DashboardLayoutComponent allowResizing={true} id="dashboard_default" columns={12} cellSpacing={cellSpacing} ref={dashboardObj} created={onCreated}>
                     <PanelsDirective>
-                        <PanelDirective sizeX={6} sizeY={1} row={0} col={0} content={grid} header="<div>MY MASTER PROJECTS / MY PROJECTS</div>"/>
-                        <PanelDirective sizeX={4} sizeY={1} row={0} col={6} content={treeview} header="<div>PROJECT HIERARCHY</div>"/>
-                        <PanelDirective sizeX={2} sizeY={6} row={0} col={10} content={userInfo} />
-                        <PanelDirective sizeX={4} sizeY={2} row={3} col={0} content={grid} header="<div>Product usage ratio</div>"/>
-                        <PanelDirective sizeX={6} sizeY={2} row={1} col={4} content={heatMap} header="<div>Product usage ratio</div>"/>
+                        <PanelDirective sizeX={6} sizeY={2} row={0} col={0} content={projectGrid} header={projectHeaderTemplate}/>
+                        <PanelDirective sizeX={4} sizeY={2} row={0} col={6} content={treeview} header="<div>PROJECT HIERARCHY</div>"/>
+                        <PanelDirective sizeX={2} sizeY={7} row={0} col={10} content={userInfo} />
+                        <PanelDirective sizeX={4} sizeY={2} row={2} col={0} content={recipeGrid} header="<div>Product usage ratio</div>"/>
+                        <PanelDirective sizeX={6} sizeY={2} row={2} col={4} content={heatMap} header="<div>Product usage ratio</div>"/>
                         <PanelDirective sizeX={10} sizeY={3} row={4} col={0} content={gantt} header="<div>GANTT</div>"/>
                     </PanelsDirective>
                 </DashboardLayoutComponent>

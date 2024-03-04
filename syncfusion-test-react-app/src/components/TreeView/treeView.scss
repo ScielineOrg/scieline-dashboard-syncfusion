@@ -1,0 +1,28 @@
+.e-treeview {
+    .e-list-parent{
+        .e-list-item{
+            &:has(.e-active){
+                > .e-text-content{
+                    font-weight: 600;
+                }
+            }
+            .e-active{
+                > .e-text-content{
+                    font-weight: 600;
+                    color: #444444;
+                    .e-list-text{
+                        color: #444444;
+                    }
+                }
+            }
+            .e-avatar {
+                float: left;
+                margin: 0 0.4em 0 0;
+                color: black;
+                font-weight: 500;
+                font-size: 0.7em;
+                background-color: #E5E5FB;
+            }
+        }
+    }
+}
