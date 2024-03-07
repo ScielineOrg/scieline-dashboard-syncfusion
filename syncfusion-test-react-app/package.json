@@ -12,6 +12,7 @@
     "@syncfusion/ej2-react-layouts": "^24.2.4",
     "@syncfusion/ej2-react-lists": "^24.2.4",
     "@syncfusion/ej2-react-navigations": "^24.2.4",
+    "@syncfusion/ej2-react-notifications": "^24.2.4",
     "@syncfusion/ej2-react-schedule": "^24.2.4",
     "@syncfusion/ej2-react-splitbuttons": "^24.2.7",
     "@testing-library/jest-dom": "^5.17.0",

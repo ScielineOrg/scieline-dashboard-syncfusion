@@ -20,6 +20,7 @@
                     text-decoration: underline;
                     font-weight: 500;
                     &.active{
+                        font-weight: 600;
                         color: $purple-text-color;
                     }
                 }

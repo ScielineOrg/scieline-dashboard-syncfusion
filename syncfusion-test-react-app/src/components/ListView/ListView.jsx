@@ -1,7 +1,18 @@
 import * as React from 'react';
 import { ListViewComponent } from '@syncfusion/ej2-react-lists';
+import { SkeletonComponent } from '@syncfusion/ej2-react-notifications';
+import { useState, useEffect } from 'react';
+import './listView.scss';
 
 function ListView(){
+    const [isLoad, load] = useState(false);
+
+    useEffect(()=>{
+        setTimeout(() => {
+            load(true);
+        }, 2000);
+    },[]);
+
     let messagesData = [
         {
             title: 'New Lab Recipe: 657889-L1'
@@ -32,7 +43,13 @@ function ListView(){
     return (<div className='control-pane'>
             <div className='control-section'>
                 <div id="messages-list">
+                {isLoad ?
                     <ListViewComponent id="list" dataSource={messagesData} template={listTemplate} cssClass='e-list-template'></ListViewComponent>
+                    :
+                    messagesData.map((x, i) => {
+                        return <SkeletonComponent className='custom' height='20px'></SkeletonComponent>
+                    })
+                }
                 </div>
             </div> 
         </div>);

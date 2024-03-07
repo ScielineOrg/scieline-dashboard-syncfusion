@@ -11,6 +11,8 @@ import {projectData, masterProjectData, recipeData} from '../Grid/datasource';
 
 function Dashboard({isOpen}) {
     const [isProjectData, setIsProjectData] = useState(true);
+    const [projOrMasterProjId, setProjOrMasterProjId] = useState(null);
+    const [recipeOrLabRecipeId, setRecipeOrLabRecipeId] = useState(null);
 
     useEffect(() => {
         console.log("isOpen", isOpen)
@@ -26,15 +28,23 @@ function Dashboard({isOpen}) {
     }
 
     function projectGrid() {
-        return <Grid data={isProjectData?projectData:masterProjectData} columns={[{ field: 'OrderID', headerText: 'Project ID' }, { field: 'CustomerID', headerText: 'User' },{ field: 'ShipCountry', headerText: 'Ship Country' }]}/>;
+        return <Grid 
+                data={isProjectData ? projectData : masterProjectData} 
+                changeRowId={handleSelectedProjId} 
+                columns={[{ field: 'OrderID', headerText: 'Project ID' }, { field: 'CustomerID', headerText: 'User' }, { field: 'ShipCountry', headerText: 'Ship Country' }]} 
+            />;
     }
 
     function recipeGrid() {
-        return <Grid data={recipeData} columns={[{ field: 'OrderID', headerText: 'ID' }, { field: 'recipeName', headerText: 'Recipe Name' },{ field: 'ShipCountry', headerText: 'Ship Country' }]}/>;
+        return <Grid 
+                data={recipeData} 
+                columns={[{ field: 'OrderID', headerText: 'ID' }, { field: 'recipeName', headerText: 'Recipe Name' },{ field: 'ShipCountry', headerText: 'Ship Country' }]}
+                changeRowId={handleSelectedRecipeId}
+            />;
     }
 
     function treeview() {
-        return <TreeView/>;
+        return <TreeView isProject={isProjectData} projOrMasterProjId={projOrMasterProjId}/>;
     }
 
     function heatMap() {
@@ -59,20 +69,27 @@ function Dashboard({isOpen}) {
     }
 
     function onCreated(args){
-
         if(dashboardObj.current){
             setTimeout(function () {
                 dashboardObj.current.refresh();
             }, 500); 
         }
-        
-    
+    };
+
+    function handleSelectedProjId(data) {
+        console.log('handleDataFromChild data: ', data);
+        setProjOrMasterProjId(data);
+    };
+
+    function handleSelectedRecipeId(data) {
+        console.log('handleDataFromChild data: ', data);
+        setRecipeOrLabRecipeId(data);
     };
 
     return (<div>
         {/* <div className="container"> */}
             {/* <div> */}
-                <DashboardLayoutComponent allowResizing={true} id="dashboard_default" columns={12} cellSpacing={cellSpacing} ref={dashboardObj} created={onCreated}>
+                <DashboardLayoutComponent draggableHandle='.e-panel-header' allowResizing={true} id="dashboard_default" columns={12} cellSpacing={cellSpacing} ref={dashboardObj} created={onCreated}>
                     <PanelsDirective>
                         <PanelDirective sizeX={6} sizeY={2} row={0} col={0} content={projectGrid} header={projectHeaderTemplate}/>
                         <PanelDirective sizeX={4} sizeY={2} row={0} col={6} content={treeview} header="<div>PROJECT HIERARCHY</div>"/>
